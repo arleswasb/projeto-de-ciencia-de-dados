@@ -26,17 +26,21 @@ print("-" * 50)
 # 3.4. Top 10 Desenvolvedores por Número de Jogos
 # Para colunas com muitos valores únicos como 'developers' ou 'publishers', é bom focar nos top N.
 print("\nGerando gráfico: Top 10 Desenvolvedores por Número de Jogos")
-top_developers = df['developers'].value_counts().head(10).reset_index()
-top_developers.columns = ['Developer', 'Count']
+try:
+    top_developers = df['developers'].value_counts().head(10).reset_index()
+    top_developers.columns = ['Developer', 'Count']
 
-fig_top_devs = px.bar(
-    top_developers,
-    x='Developer',
-    y='Count',
-    title='Top 10 Desenvolvedores por Número de Jogos',
-    labels={'Developer': 'Desenvolvedor', 'Count': 'Número de Jogos'},
-    color='Developer'
-)
-fig_top_devs.show()
-fig_top_devs.write_html("top_developers.html") # Salva o gráfico como HTML
-
+    fig_top_devs = px.bar(
+        top_developers,
+        x='Developer',
+        y='Count',
+        title='Top 10 Desenvolvedores por Número de Jogos',
+        labels={'Developer': 'Desenvolvedor', 'Count': 'Número de Jogos'},
+        color='Developer'
+    )
+    fig_top_devs.show()
+    fig_top_devs.write_html("top_developers.html") # Salva o gráfico como HTML
+except KeyError:
+    print("Erro: A coluna 'developers' não foi encontrada no DataFrame. Verifique os nomes das colunas.")
+except Exception as e:
+    print(f"Erro ao gerar o gráfico dos top 10 desenvolvedores: {e}")

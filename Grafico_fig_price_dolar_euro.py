@@ -27,24 +27,34 @@ print("-" * 50)
 # 2.4. Distribuição de Preços (Dólar e Euro)
 # Histograma para ver a forma da distribuição e box plot para estatísticas descritivas (mediana, quartis, outliers).
 print("\nGerando gráficos: Distribuição de Preços (Dólar e Euro)")
-fig_price_dolar_hist = px.histogram(
-    df,
-    x='preco_dolar',
-    nbins=30,
-    title='Distribuição de Preços em Dólar',
-    labels={'preco_dolar': 'Preço (Dólar)', 'count': 'Número de Jogos'},
-    marginal='box' # Adiciona um box plot marginal
-)
-fig_price_dolar_hist.show()
-fig_price_dolar_hist.write_html("price_dolar_distribution.html") # Salva o gráfico como HTML
+try:
+    fig_price_dolar_hist = px.histogram(
+        df,
+        x='preco_dolar',
+        nbins=30,
+        title='Distribuição de Preços em Dólar',
+        labels={'preco_dolar': 'Preço (Dólar)', 'count': 'Número de Jogos'},
+        marginal='box' # Adiciona um box plot marginal
+    )
+    fig_price_dolar_hist.show()
+    fig_price_dolar_hist.write_html("price_dolar_distribution.html") # Salva o gráfico como HTML
+except KeyError:
+    print("Erro: A coluna 'preco_dolar' não foi encontrada no DataFrame. Verifique os nomes das colunas.")
+except Exception as e:
+    print(f"Erro ao gerar o gráfico de distribuição de preços em dólar: {e}")
 
-fig_price_euro_hist = px.histogram(
-    df,
-    x='preco_euro',
-    nbins=30,
-    title='Distribuição de Preços em Euro',
-    labels={'preco_euro': 'Preço (Euro)', 'count': 'Número de Jogos'},
-    marginal='violin' # Adiciona um violin plot marginal
-)
-fig_price_euro_hist.show()
-fig_price_euro_hist.write_html("price_euro_distribution.html") # Salva o gráfico como HTML
+try:
+    fig_price_euro_hist = px.histogram(
+        df,
+        x='preco_euro',
+        nbins=30,
+        title='Distribuição de Preços em Euro',
+        labels={'preco_euro': 'Preço (Euro)', 'count': 'Número de Jogos'},
+        marginal='violin' # Adiciona um violin plot marginal
+    )
+    fig_price_euro_hist.show()
+    fig_price_euro_hist.write_html("price_euro_distribution.html") # Salva o gráfico como HTML
+except KeyError:
+    print("Erro: A coluna 'preco_euro' não foi encontrada no DataFrame. Verifique os nomes das colunas.")
+except Exception as e:
+    print(f"Erro ao gerar o gráfico de distribuição de preços em euro: {e}")

@@ -26,14 +26,18 @@ print("-" * 50)
 # 3.1. Preço Médio por Plataforma
 # Usando box plots para comparar a distribuição de preços entre plataformas.
 print("\nGerando gráfico: Distribuição de Preços por Plataforma (Dólar)")
-fig_price_by_platform = px.box(
-    df,
-    x='platform',
-    y='preco_dolar',
-    title='Distribuição de Preços (Dólar) por Plataforma',
-    labels={'platform': 'Plataforma', 'preco_dolar': 'Preço (Dólar)'},
-    color='platform'
-)
-fig_price_by_platform.show()
-fig_price_by_platform.write_html("price_by_platform.html") # Salva o gráfico como HTML
-
+try:
+    fig_price_by_platform = px.box(
+        df,
+        x='platform',
+        y='preco_dolar',
+        title='Distribuição de Preços (Dólar) por Plataforma',
+        labels={'platform': 'Plataforma', 'preco_dolar': 'Preço (Dólar)'},
+        color='platform'
+    )
+    fig_price_by_platform.show()
+    fig_price_by_platform.write_html("price_by_platform.html") # Salva o gráfico como HTML
+except KeyError as e:
+    print(f"Erro: Coluna não encontrada para o gráfico de preço por plataforma: {e}. Verifique 'platform' e 'preco_dolar'.")
+except Exception as e:
+    print(f"Erro ao gerar o gráfico de distribuição de preços por plataforma: {e}")

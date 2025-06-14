@@ -27,16 +27,22 @@ print("-" * 50)
 # 2.5. Análise de Gêneros
 # Somar as colunas booleanas para obter a contagem de jogos por gênero.
 print("\nGerando gráfico: Contagem de Jogos por Gênero")
-genre_columns = [col for col in df.columns if col.startswith('genre_')]
-genre_counts = df[genre_columns].sum().sort_values(ascending=False)
+genre_columns = [col for col in df.columns if col.startswith('genre_')] # Mova a definição para fora do try
 
-fig_genre_counts = px.bar(
-    x=genre_counts.index.str.replace('genre_', ''), # Remove o prefixo 'genre_'
-    y=genre_counts.values,
-    title='Contagem de Jogos por Gênero',
-    labels={'x': 'Gênero', 'y': 'Número de Jogos'},
-    color=genre_counts.index.str.replace('genre_', '')
-)
-fig_genre_counts.show()
-fig_genre_counts.write_html("genre_counts.html") # Salva o gráfico como HTML
+try:
+    if not genre_columns:
+        print("Aviso: Nenhuma coluna de gênero (começando com 'genre_') encontrada no DataFrame.")
+    else:
+        genre_counts = df[genre_columns].sum().sort_values(ascending=False)
 
+        fig_genre_counts = px.bar(
+            x=genre_counts.index.str.replace('genre_', ''), # Remove o prefixo 'genre_'
+            y=genre_counts.values,
+            title='Contagem de Jogos por Gênero',
+            labels={'x': 'Gênero', 'y': 'Número de Jogos'},
+            color=genre_counts.index.str.replace('genre_', '')
+        )
+        fig_genre_counts.show()
+        fig_genre_counts.write_html("genre_counts.html") # Salva o gráfico como HTML
+except Exception as e:
+    print(f"Erro ao gerar o gráfico de contagem de jogos por gênero: {e}")

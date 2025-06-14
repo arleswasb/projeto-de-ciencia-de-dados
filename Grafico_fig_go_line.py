@@ -25,25 +25,30 @@ print("-" * 50)
 # --- 4. Exemplo de uso de plotly.graph_objects para maior controle ---
 # Criando um gráfico de linhas para o número de lançamentos por ano (mais controle sobre traces)
 print("\nGerando gráfico: Número de Lançamentos por Ano (go.Figure)")
-yearly_releases = df['release_year'].value_counts().sort_index().reset_index()
-yearly_releases.columns = ['Year', 'Count']
+try:
+    yearly_releases = df['release_year'].value_counts().sort_index().reset_index()
+    yearly_releases.columns = ['Year', 'Count']
 
-fig_go_line = go.Figure()
-fig_go_line.add_trace(go.Scatter(
-    x=yearly_releases['Year'],
-    y=yearly_releases['Count'],
-    mode='lines+markers',
-    name='Número de Lançamentos',
-    line=dict(color='royalblue', width=2),
-    marker=dict(size=8, color='lightskyblue', line=dict(width=1, color='DarkSlateGrey'))
-))
+    fig_go_line = go.Figure()
+    fig_go_line.add_trace(go.Scatter(
+        x=yearly_releases['Year'],
+        y=yearly_releases['Count'],
+        mode='lines+markers',
+        name='Número de Lançamentos',
+        line=dict(color='royalblue', width=2),
+        marker=dict(size=8, color='lightskyblue', line=dict(width=1, color='DarkSlateGrey'))
+    ))
 
-fig_go_line.update_layout(
-    title='Número de Lançamentos de Jogos por Ano',
-    xaxis_title='Ano de Lançamento',
-    yaxis_title='Número de Jogos',
-    hovermode='x unified' # Melhora a interatividade ao passar o mouse
-)
-fig_go_line.show()
-fig_go_line.write_html("yearly_releases_line.html") # Salva o gráfico como HTML
+    fig_go_line.update_layout(
+        title='Número de Lançamentos de Jogos por Ano',
+        xaxis_title='Ano de Lançamento',
+        yaxis_title='Número de Jogos',
+        hovermode='x unified' # Melhora a interatividade ao passar o mouse
+    )
+    fig_go_line.show()
+    fig_go_line.write_html("yearly_releases_line.html") # Salva o gráfico como HTML
+except KeyError:
+    print("Erro: A coluna 'release_year' não foi encontrada para o gráfico de lançamentos anuais.")
+except Exception as e:
+    print(f"Erro ao gerar o gráfico de número de lançamentos por ano: {e}")
 

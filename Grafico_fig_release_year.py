@@ -26,13 +26,18 @@ print("-" * 50)
 # 2.2. Distribuição de Lançamentos por Ano
 # Um histograma mostra a frequência de lançamentos em diferentes anos.
 print("\nGerando gráfico: Distribuição de Lançamentos por Ano")
-fig_release_year = px.histogram(
-    df,
-    x='release_year',
-    nbins=20, # Número de "caixas" para o histograma
-    title='Distribuição de Lançamentos por Ano',
-    labels={'release_year': 'Ano de Lançamento', 'count': 'Número de Jogos'},
-    template='plotly_white' # Define um tema para o gráfico
-)
-fig_release_year.show()
-fig_release_year.write_html("release_year_distribution.html") # Salva o gráfico como HTML
+try:
+    fig_release_year = px.histogram(
+        df,
+        x='release_year',
+        nbins=20, # Número de "caixas" para o histograma
+        title='Distribuição de Lançamentos por Ano',
+        labels={'release_year': 'Ano de Lançamento', 'count': 'Número de Jogos'},
+        template='plotly_white' # Define um tema para o gráfico
+    )
+    fig_release_year.show()
+    fig_release_year.write_html("release_year_distribution.html") # Salva o gráfico como HTML
+except KeyError:
+    print("Erro: A coluna 'release_year' não foi encontrada no DataFrame. Verifique os nomes das colunas.")
+except Exception as e:
+    print(f"Erro ao gerar o gráfico de distribuição de lançamentos por ano: {e}")
